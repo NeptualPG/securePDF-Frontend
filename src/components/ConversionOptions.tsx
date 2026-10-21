@@ -23,7 +23,6 @@ export function ConversionOptionsPanel({ options, disabled = false, onChange }: 
           onChange={(event) => onChange({ ...options, outputFormat: event.target.value as OutputFormat })}
         >
           <option value="pdf">Standard PDF</option>
-          <option value="pdf-a">PDF/A (archival)</option>
         </select>
       </label>
       <label className="checkbox-row">

@@ -1,4 +1,4 @@
-export type OutputFormat = 'pdf' | 'pdf-a';
+export type OutputFormat = 'pdf';
 
 export type ConversionStatus = 'idle' | 'converting' | 'success' | 'error';
 

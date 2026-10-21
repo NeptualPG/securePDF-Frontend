@@ -1,6 +1,6 @@
 import type { ConversionOptions, ConversionResult } from '../types/conversion';
 
-const conversionEndpoint = '/api/convert';
+const conversionEndpoint = `${import.meta.env.VITE_API_BASE_URL ?? ''}/api/v1/convert`;
 
 function fileNameFromHeader(contentDisposition: string | null, fallback: string): string {
   const match = contentDisposition?.match(/filename="?([^";]+)"?/i);
@@ -14,9 +14,15 @@ export async function convertFile(
 ): Promise<ConversionResult> {
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('output_format', options.outputFormat);
-  formData.append('compress', String(options.compress));
-  formData.append('password_protect', String(options.passwordProtect));
+  formData.append('target_format', options.outputFormat);
+  formData.append(
+    'options',
+    JSON.stringify({
+      quality: options.compress ? 'high' : 'standard',
+      ocr: false,
+      password_protect: options.passwordProtect,
+    }),
+  );
 
   const response = await fetch(conversionEndpoint, {
     method: 'POST',
