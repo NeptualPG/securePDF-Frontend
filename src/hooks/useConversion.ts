@@ -6,6 +6,7 @@ export function useConversion() {
   const [status, setStatus] = useState<ConversionStatus>('idle');
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [errorCode, setErrorCode] = useState<string | undefined>();
   const [result, setResult] = useState<ConversionResult | null>(null);
   const abortController = useRef<AbortController | null>(null);
 
@@ -16,6 +17,7 @@ export function useConversion() {
     setStatus('converting');
     setProgress(10);
     setError(null);
+    setErrorCode(undefined);
     setResult(null);
 
     try {
@@ -30,11 +32,12 @@ export function useConversion() {
     } catch (conversionError) {
       if (conversionError instanceof DOMException && conversionError.name === 'AbortError') return;
       setError(conversionError instanceof Error ? conversionError.message : 'An unexpected error occurred.');
+      setErrorCode(conversionError instanceof Error && 'code' in conversionError ? String(conversionError.code) : undefined);
       setStatus('error');
     }
   }, []);
 
   useEffect(() => () => abortController.current?.abort(), []);
 
-  return { status, progress, error, result, convert };
+  return { status, progress, error, errorCode, result, convert };
 }

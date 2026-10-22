@@ -4,11 +4,12 @@ import type { ConversionOptions } from './conversion';
 describe('conversion types', () => {
   it('supports the v1 PDF options shape', () => {
     const options: ConversionOptions = {
-      outputFormat: 'pdf',
-      compress: true,
-      passwordProtect: false,
+      target: 'pdf',
+      page: 1,
+      dpi: 150,
+      preserve_layout: true,
     };
 
-    expect(options.outputFormat).toBe('pdf');
+    expect(options.target).toBe('pdf');
   });
 });

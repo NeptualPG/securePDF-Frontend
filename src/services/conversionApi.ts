@@ -1,4 +1,12 @@
 import type { ConversionOptions, ConversionResult } from '../types/conversion';
+import { friendlyError } from './errorMessages';
+
+export class ConversionApiError extends Error {
+  constructor(message: string, readonly code?: string) {
+    super(message);
+    this.name = 'ConversionApiError';
+  }
+}
 
 const conversionEndpoint = `${import.meta.env.VITE_API_BASE_URL ?? ''}/api/v1/convert`;
 
@@ -14,15 +22,11 @@ export async function convertFile(
 ): Promise<ConversionResult> {
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('target_format', options.outputFormat);
-  formData.append(
-    'options',
-    JSON.stringify({
-      quality: options.compress ? 'high' : 'standard',
-      ocr: false,
-      password_protect: options.passwordProtect,
-    }),
-  );
+  formData.append('target_format', options.target);
+  const { target, ...conversionOptions } = options;
+  if (Object.keys(conversionOptions).length > 0) {
+    formData.append('options', JSON.stringify(conversionOptions));
+  }
 
   const response = await fetch(conversionEndpoint, {
     method: 'POST',
@@ -33,19 +37,19 @@ export async function convertFile(
   if (!response.ok) {
     let message = `Conversion failed (${response.status})`;
     try {
-      const body = (await response.json()) as { error?: string };
-      if (body.error) message = body.error;
-    } catch {
-      // The server may return a non-JSON error response.
+      const body = (await response.json()) as { error?: string; code?: string };
+      throw new ConversionApiError(friendlyError(body.code), body.code);
+    } catch (error) {
+      if (error instanceof ConversionApiError) throw error;
+      throw new ConversionApiError(message);
     }
-    throw new Error(message);
   }
 
   return {
     file: await response.blob(),
     fileName: fileNameFromHeader(
       response.headers.get('content-disposition'),
-      `${file.name.replace(/\.[^.]+$/, '')}.pdf`,
+      `${file.name.replace(/\.[^.]+$/, '')}.${options.target}`,
     ),
   };
 }

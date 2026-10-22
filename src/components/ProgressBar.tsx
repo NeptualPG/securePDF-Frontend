@@ -5,15 +5,5 @@ interface ProgressBarProps {
 
 export function ProgressBar({ progress, visible }: ProgressBarProps) {
   if (!visible) return null;
-  return (
-    <div className="progress-area" aria-live="polite">
-      <div className="progress-label">
-        <span>Converting securely...</span>
-        <strong>{progress}%</strong>
-      </div>
-      <div className="progress-track">
-        <div className="progress-value" style={{ width: `${progress}%` }} />
-      </div>
-    </div>
-  );
+  return <div className="progress-track" aria-label={`${progress}% complete`} role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}><div className="progress-value" style={{ width: `${progress}%` }} /></div>;
 }

@@ -11,10 +11,10 @@ The conversion request is:
 - `POST /api/v1/convert`
 - `multipart/form-data`
 - `file`: selected source file
-- `target_format`: `pdf`
-- `options`: optional JSON string
+- `target_format`: `pdf`, `docx`, `png`, or `jpg`
+- `options`: optional JSON string. PDF-to-image supports page and DPI; PDF-to-DOCX supports layout preservation as a best-effort option.
 
-Successful responses are PDF binary streams (`application/pdf`). Error responses are JSON objects containing `error` and `code`. The frontend should distinguish `INVALID_FILE`, `PAYLOAD_TOO_LARGE`, and `UNSUPPORTED_FORMAT` when the conversion endpoint is implemented.
+Successful responses are binary streams whose MIME type matches the selected target. The server supplies the download filename through `Content-Disposition`. Error responses are JSON objects containing `error` and `code`.
 
 ## Local development
 
