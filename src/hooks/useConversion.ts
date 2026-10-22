@@ -10,7 +10,8 @@ export function useConversion() {
   const [result, setResult] = useState<ConversionResult | null>(null);
   const abortController = useRef<AbortController | null>(null);
 
-  const convert = useCallback(async (file: File, options: ConversionOptions) => {
+  /** Resolves to the final status, or null when a newer conversion aborted this one. */
+  const convert = useCallback(async (file: File, options: ConversionOptions): Promise<ConversionStatus | null> => {
     abortController.current?.abort();
     const controller = new AbortController();
     abortController.current = controller;
@@ -20,20 +21,26 @@ export function useConversion() {
     setErrorCode(undefined);
     setResult(null);
 
+    const progressTimer = window.setInterval(() => {
+      setProgress((current) => Math.min(current + 10, 90));
+    }, 250);
+
     try {
-      const progressTimer = window.setInterval(() => {
-        setProgress((current) => Math.min(current + 10, 90));
-      }, 250);
       const conversion = await convertFile(file, options, controller.signal);
-      window.clearInterval(progressTimer);
       setProgress(100);
       setResult(conversion);
       setStatus('success');
+      return 'success';
     } catch (conversionError) {
-      if (conversionError instanceof DOMException && conversionError.name === 'AbortError') return;
+      if (conversionError instanceof DOMException && conversionError.name === 'AbortError') return null;
       setError(conversionError instanceof Error ? conversionError.message : 'An unexpected error occurred.');
-      setErrorCode(conversionError instanceof Error && 'code' in conversionError ? String(conversionError.code) : undefined);
+      setErrorCode(
+        conversionError instanceof Error && 'code' in conversionError ? String(conversionError.code) : undefined,
+      );
       setStatus('error');
+      return 'error';
+    } finally {
+      window.clearInterval(progressTimer);
     }
   }, []);
 

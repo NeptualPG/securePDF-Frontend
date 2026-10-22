@@ -2,7 +2,10 @@ import type { ConversionOptions, ConversionResult } from '../types/conversion';
 import { friendlyError } from './errorMessages';
 
 export class ConversionApiError extends Error {
-  constructor(message: string, readonly code?: string) {
+  constructor(
+    message: string,
+    readonly code?: string,
+  ) {
     super(message);
     this.name = 'ConversionApiError';
   }
@@ -21,9 +24,9 @@ export async function convertFile(
   signal?: AbortSignal,
 ): Promise<ConversionResult> {
   const formData = new FormData();
-  formData.append('file', file);
-  formData.append('target_format', options.target);
   const { target, ...conversionOptions } = options;
+  formData.append('file', file);
+  formData.append('target_format', target);
   if (Object.keys(conversionOptions).length > 0) {
     formData.append('options', JSON.stringify(conversionOptions));
   }
@@ -35,7 +38,7 @@ export async function convertFile(
   });
 
   if (!response.ok) {
-    let message = `Conversion failed (${response.status})`;
+    const message = `Conversion failed (${response.status})`;
     try {
       const body = (await response.json()) as { error?: string; code?: string };
       throw new ConversionApiError(friendlyError(body.code), body.code);
@@ -49,7 +52,7 @@ export async function convertFile(
     file: await response.blob(),
     fileName: fileNameFromHeader(
       response.headers.get('content-disposition'),
-      `${file.name.replace(/\.[^.]+$/, '')}.${options.target}`,
+      `${file.name.replace(/\.[^.]+$/, '')}.${target}`,
     ),
   };
 }

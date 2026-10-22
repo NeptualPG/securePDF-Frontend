@@ -8,7 +8,11 @@ export function ErrorBanner({ message, code, errorCodeLabel = 'Error code' }: Er
   return (
     <div className="error-banner" role="alert">
       <strong>{message}</strong>
-      {code && <small>{errorCodeLabel}: {code}</small>}
+      {code && (
+        <small>
+          {errorCodeLabel}: {code}
+        </small>
+      )}
     </div>
   );
 }

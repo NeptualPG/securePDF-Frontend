@@ -22,8 +22,9 @@ const messages: Record<Language, Record<string, string>> = {
 };
 
 export function friendlyError(code?: string, language: Language = 'en'): string {
-  const fallback = language === 'es'
-    ? 'No se pudo convertir el archivo. Inténtalo de nuevo.'
-    : 'We could not convert that file. Please try again.';
+  const fallback =
+    language === 'es'
+      ? 'No se pudo convertir el archivo. Inténtalo de nuevo.'
+      : 'We could not convert that file. Please try again.';
   return (code && messages[language][code]) || fallback;
 }

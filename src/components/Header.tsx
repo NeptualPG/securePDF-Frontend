@@ -3,7 +3,13 @@ import { Logo } from './Logo';
 import type { Language } from '../i18n';
 import { translate } from '../i18n';
 
-export function Header({ language, onLanguageChange }: { language: Language; onLanguageChange: (language: Language) => void }) {
+export function Header({
+  language,
+  onLanguageChange,
+}: {
+  language: Language;
+  onLanguageChange: (language: Language) => void;
+}) {
   return (
     <header className="site-header">
       <div className="container header-content">
@@ -14,8 +20,20 @@ export function Header({ language, onLanguageChange }: { language: Language; onL
           <Code2 size={16} /> {translate(language, 'github')}
         </a>
         <div className="language-switcher" aria-label="Language">
-          <button type="button" className={language === 'en' ? 'language-active' : ''} onClick={() => onLanguageChange('en')}>EN</button>
-          <button type="button" className={language === 'es' ? 'language-active' : ''} onClick={() => onLanguageChange('es')}>ES</button>
+          <button
+            type="button"
+            className={language === 'en' ? 'language-active' : ''}
+            onClick={() => onLanguageChange('en')}
+          >
+            EN
+          </button>
+          <button
+            type="button"
+            className={language === 'es' ? 'language-active' : ''}
+            onClick={() => onLanguageChange('es')}
+          >
+            ES
+          </button>
         </div>
       </div>
     </header>
