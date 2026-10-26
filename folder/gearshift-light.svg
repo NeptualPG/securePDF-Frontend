@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" fill="none" role="img" aria-label="Gearshift">
+  <!--
+    Gearshift logo — LIGHT variant
+    Use on white / light backgrounds (header, footer, hero).
+    Sphere wireframe + orbital rings + "Gearshift" wordmark in ink-900.
+  -->
+  <defs>
+    <style>
+      .gs-stroke { stroke: #1A0B0A; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .gs-dot    { fill: #1A0B0A; }
+      .gs-text   { fill: #1A0B0A; font-family: 'Poppins', 'Inter', system-ui, -apple-system, sans-serif; font-weight: 700; font-style: italic; font-size: 30px; letter-spacing: -0.5px; }
+    </style>
+  </defs>
+
+  <!-- Wireframe sphere -->
+  <g class="gs-stroke">
+    <!-- Outer sphere -->
+    <circle cx="40" cy="40" r="22" />
+    <!-- Latitudes (horizontal ellipses) -->
+    <ellipse cx="40" cy="40" rx="22" ry="7" />
+    <ellipse cx="40" cy="40" rx="22" ry="15" />
+    <path d="M 18 40 A 22 22 0 0 1 62 40" />
+    <path d="M 18 40 A 22 22 0 0 0 62 40" />
+    <!-- Longitudes (vertical ellipses for 3D rotation effect) -->
+    <ellipse cx="40" cy="40" rx="7"  ry="22" />
+    <ellipse cx="40" cy="40" rx="15" ry="22" />
+  </g>
+
+  <!-- Orbital rings around the sphere -->
+  <g class="gs-stroke">
+    <ellipse cx="40" cy="40" rx="34" ry="11" transform="rotate(25 40 40)" />
+    <ellipse cx="40" cy="40" rx="32" ry="9"  transform="rotate(-58 40 40)" />
+  </g>
+
+  <!-- Dots on orbital rings -->
+  <g class="gs-dot">
+    <circle cx="70.8" cy="54.4" r="2.4" />
+    <circle cx="9.2"  cy="25.6" r="2.4" />
+    <circle cx="58.4" cy="13.8" r="2" />
+    <circle cx="21.6" cy="66.2" r="2" />
+  </g>
+
+  <!-- Wordmark -->
+  <text x="86" y="51" class="gs-text">Gearshift</text>
+</svg>

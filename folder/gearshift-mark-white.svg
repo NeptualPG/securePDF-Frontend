@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none" role="img" aria-label="Gearshift">
+  <!--
+    Gearshift mark only — DARK (white sphere on transparent)
+    Use on brand-red chips (dropzone icon bg, success circle, dark footer).
+    No wordmark — square aspect.
+  -->
+  <defs>
+    <style>
+      .gs-stroke { stroke: #FFFFFF; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .gs-dot    { fill: #FFFFFF; }
+    </style>
+  </defs>
+
+  <g class="gs-stroke">
+    <circle cx="40" cy="40" r="22" />
+    <ellipse cx="40" cy="40" rx="22" ry="7" />
+    <ellipse cx="40" cy="40" rx="22" ry="15" />
+    <path d="M 18 40 A 22 22 0 0 1 62 40" />
+    <path d="M 18 40 A 22 22 0 0 0 62 40" />
+    <ellipse cx="40" cy="40" rx="7"  ry="22" />
+    <ellipse cx="40" cy="40" rx="15" ry="22" />
+  </g>
+
+  <g class="gs-stroke">
+    <ellipse cx="40" cy="40" rx="34" ry="11" transform="rotate(25 40 40)" />
+    <ellipse cx="40" cy="40" rx="32" ry="9"  transform="rotate(-58 40 40)" />
+  </g>
+
+  <g class="gs-dot">
+    <circle cx="70.8" cy="54.4" r="2.4" />
+    <circle cx="9.2"  cy="25.6" r="2.4" />
+    <circle cx="58.4" cy="13.8" r="2" />
+    <circle cx="21.6" cy="66.2" r="2" />
+  </g>
+</svg>
