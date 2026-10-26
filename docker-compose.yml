@@ -1,0 +1,21 @@
+# Local full stack: http://localhost:8080
+# Expects the backend repository cloned next to this one (../securePDF).
+services:
+  backend:
+    build: ../securePDF
+    environment:
+      PORT: '3000'
+      MAX_UPLOAD_MB: '25'
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:3000/api/v1/health']
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  frontend:
+    build: .
+    ports:
+      - '8080:80'
+    depends_on:
+      backend:
+        condition: service_healthy

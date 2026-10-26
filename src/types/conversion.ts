@@ -1,9 +1,10 @@
 export type OutputFormat =
-  | 'pdf' | 'doc' | 'docx' | 'rtf' | 'odt'
-  | 'xls' | 'xlsx' | 'ods' | 'ppt' | 'pptx' | 'odp'
-  | 'png' | 'jpg';
+  'pdf' | 'doc' | 'docx' | 'rtf' | 'odt' | 'xls' | 'xlsx' | 'ods' | 'ppt' | 'pptx' | 'odp' | 'png' | 'jpg';
 
 export type ConversionStatus = 'idle' | 'converting' | 'success' | 'error';
+
+/** Must match the backend MAX_UPLOAD_MB setting. */
+export const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
 
 export interface ConversionOptions {
   target: OutputFormat;

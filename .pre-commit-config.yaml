@@ -1,0 +1,59 @@
+# Install: npm ci && pre-commit install
+# Run on every file: pre-commit run --all-files
+default_install_hook_types: [pre-commit]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: detect-private-key
+
+  - repo: local
+    hooks:
+      - id: prettier
+        name: prettier
+        entry: npx --no -- prettier --write --ignore-unknown
+        language: system
+        types_or: [javascript, jsx, ts, tsx, json, css, html, markdown, yaml]
+
+      - id: eslint
+        name: eslint
+        entry: npx --no -- eslint --fix --max-warnings=0
+        language: system
+        types_or: [javascript, jsx, ts, tsx]
+
+      - id: typecheck
+        name: tsc
+        entry: npx --no -- tsc -b
+        language: system
+        files: ^(src/|vite\.config\.ts$|tsconfig.*\.json$|package\.json$)
+        pass_filenames: false
+
+      - id: vitest
+        name: vitest
+        entry: npx --no -- vitest run
+        language: system
+        files: ^(src/|vite\.config\.ts$|package(-lock)?\.json$)
+        pass_filenames: false
+
+      - id: vite-build
+        name: vite build
+        entry: npx --no -- vite build --logLevel warn
+        language: system
+        files: ^(src/|index\.html$|vite\.config\.ts$|package(-lock)?\.json$)
+        pass_filenames: false
+
+      - id: npm-audit
+        name: npm audit
+        entry: npm audit --audit-level=moderate
+        language: system
+        files: ^package(-lock)?\.json$
+        pass_filenames: false
